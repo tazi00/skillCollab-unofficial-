@@ -8,9 +8,7 @@ async function getUserById(id: string) {
     const user = await apiClient.getUserProfile(id);
     if (user) {
       //   toast.success("Login SuccessFully");
-      console.log(user);
-
-      return user;
+      return user?.data;
     } else {
       throw new Error("not fetched");
     }

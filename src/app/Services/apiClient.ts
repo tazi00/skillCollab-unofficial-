@@ -37,8 +37,8 @@ class APIClient {
       (config: AxiosRequestConfig) => {
         const accessToken = getDataFromLocal("accessToken");
         if (accessToken) {
-          if (config.headers && config.headers.Authorization)
-            config.headers.Authorization = `Bearer ${accessToken}`;
+          if (!config.headers) config.headers = [];
+          config.headers.Authorization = `Bearer ${accessToken}`;
         }
         return config;
       },

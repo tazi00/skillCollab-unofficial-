@@ -15,10 +15,18 @@ import useUser from "@/app/hooks/useUser";
 function Home() {
   const { data: user } = useUser();
 
-  const { data: userData } = useQuery({
-    queryKey: ["userProfile"],
-    queryFn: getUserById(user?.sub),
+  const {
+    data: userData,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ["userProfile", user?.sub],
+    queryFn: () => getUserById(user?.sub),
+    enabled: !!user?.sub,
   });
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
 
   console.log(userData);
 
@@ -28,7 +36,7 @@ function Home() {
         <SkillGrid $col={["300px", "1fr", "300px"]}>
           <SkillCol>
             <SkillBox>
-              <SkillProfileCard />
+              <SkillProfileCard profileCardData={userData} />
             </SkillBox>
           </SkillCol>
           <SkillCol>
