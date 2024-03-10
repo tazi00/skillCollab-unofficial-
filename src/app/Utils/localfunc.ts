@@ -1,0 +1,36 @@
+import { jwtDecoder } from "./jwtDecoder";
+
+// Function to set data to local storage
+export function setDataToLocal(key: string, data: any) {
+  try {
+    localStorage.setItem(key, JSON.stringify(data));
+    return true; // Return true on success
+  } catch (error) {
+    console.error("Error setting data to local storage:", error);
+    return false; // Return false on error
+  }
+}
+
+// Function to get data from local storage
+export function getDataFromLocal(key: string) {
+  try {
+    const data = localStorage.getItem(key);
+
+    return data ? JSON.parse(data) : null; // Return parsed data if exists, otherwise null
+  } catch (error) {
+    console.error("Error getting data from local storage:", error);
+    return null; // Return null on error
+  }
+}
+
+export function getUserInfoFromToken() {
+  return new Promise((resolve, reject) => {
+    try {
+      const accessToken = getDataFromLocal("accessToken");
+      const userInfo = jwtDecoder(accessToken);
+      resolve(userInfo);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
