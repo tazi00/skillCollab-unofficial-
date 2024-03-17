@@ -1,5 +1,3 @@
-import { jwtDecoder } from "./jwtDecoder";
-
 // Function to set data to local storage
 export function setDataToLocal(key: string, data: any) {
   try {
@@ -21,16 +19,4 @@ export function getDataFromLocal(key: string) {
     console.error("Error getting data from local storage:", error);
     return null; // Return null on error
   }
-}
-
-export function getUserInfoFromToken() {
-  return new Promise((resolve, reject) => {
-    try {
-      const accessToken = getDataFromLocal("accessToken");
-      const userInfo = jwtDecoder(accessToken);
-      resolve(userInfo);
-    } catch (error) {
-      reject(error);
-    }
-  });
 }

@@ -64,7 +64,9 @@ function RegisterForm() {
         render={<SkillLink $margin="10px 0 0 0">Forgot password?</SkillLink>}
       />
       <SkillBox $margin="30px 0 0 0 ">
-        <SkillButton>Log in</SkillButton>
+        <SkillButton variant="primary" size="large" type="submit">
+          Log in
+        </SkillButton>
         <SkillText
           $variant="primary"
           $flex

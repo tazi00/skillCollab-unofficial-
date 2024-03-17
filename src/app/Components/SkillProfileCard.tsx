@@ -1,12 +1,26 @@
 import SkillButton from "./SkillButton";
 import { SkillBox, SkillCard, SkillImg, SkillText } from "../Ui";
+import { BiEditAlt } from "react-icons/bi";
 
-function SkillProfileCard({ profileCardData }) {
+interface SkillProfileCardProps {
+  coverPhoto: string;
+  profilePhoto: string;
+  firstName: string;
+  lastName: string;
+  description: string;
+}
+
+function SkillProfileCard({
+  profileCardData,
+}: {
+  profileCardData: SkillProfileCardProps;
+}) {
   return (
     <SkillCard
       $backgroundImage={profileCardData?.coverPhoto}
       $padding="32px"
-      $backgroundColor=" #0000008f;"
+      $afterContent=" "
+      $after={true}
     >
       <SkillBox
         $textAlign="center"
@@ -17,18 +31,21 @@ function SkillProfileCard({ profileCardData }) {
         <SkillImg
           src={profileCardData?.profilePhoto}
           alt="user profile image"
-          $height={"62px"}
-          $width={"62px"}
+          $height={"82px"}
+          $width={"82px"}
           $borderRadius="50%"
+          $object="cover"
           $margin="0 0 16px 0"
+          $border="4px solid #fff"
         />
         <SkillText $margin="0 0 10px 0" $variant="bold">
-          {profileCardData?.firsName + " " + profileCardData.lastName}
+          {profileCardData?.firstName + " " + profileCardData.lastName}
         </SkillText>
         <SkillText $margin="0 0 10px 0" $variant="thin">
           {profileCardData?.description}
         </SkillText>
-        <SkillButton margin="24px 0 0 0 " variant="secondary" size="small">
+        <SkillButton margin="10px 0 0 0 " variant="secondary" size="small">
+          <BiEditAlt fontSize={"22px"} />
           Edit Profile
         </SkillButton>
       </SkillBox>

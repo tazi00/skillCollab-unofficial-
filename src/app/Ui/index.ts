@@ -17,6 +17,7 @@ import { SkillList } from "./SkillList";
 import { SkillListItem } from "./SkillListItem";
 import { SkillLoading } from "./SkillLoading";
 import { SkillCard } from "./SkillCard";
+import SkillSpan from "./SkillSpan";
 
 export {
   SkillContainer,
@@ -38,4 +39,5 @@ export {
   SkillListItem,
   SkillLoading,
   SkillCard,
+  SkillSpan,
 };

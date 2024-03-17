@@ -5,6 +5,7 @@ interface ImgProps {
   $width?: string;
   $margin?: string;
   $padding?: string;
+  $object?: "cover" | "contain";
   $borderRadius?: string; // Added borderRadius property
   $border?: string; // Added border property
   // Add more properties as needed
@@ -12,6 +13,7 @@ interface ImgProps {
 
 export const SkillImg = styled.img<ImgProps>`
   /* Apply height if provided */
+  cursor: pointer;
   ${(props) =>
     props.$height &&
     css`
@@ -51,5 +53,10 @@ export const SkillImg = styled.img<ImgProps>`
     props.$border &&
     css`
       border: ${props.$border};
+    `} /* Add more styling properties as needed */
+  ${(props) =>
+    props.$object &&
+    css`
+      object-fit: ${props.$object};
     `} /* Add more styling properties as needed */
 `;

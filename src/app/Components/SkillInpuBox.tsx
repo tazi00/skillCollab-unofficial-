@@ -1,35 +1,35 @@
 // FormRow.js
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 import { SkillBox, SkillInput, SkillLabel } from "../Ui";
+
 interface SkillInputProps {
   label: string;
   type: "text" | "email" | "password" | "number"; // Define the types of input fields
   placeholder: string;
-  Hfor: string;
-  value: string | number;
-  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultValue?: string | number; // Add defaultValue prop
   render?: ReactNode;
+  register: any;
+  autoComplete?: string;
 }
 
 function SkillInputBox({
+  placeholder,
   label,
   type,
-  placeholder,
-  Hfor,
-  value,
-  onChange,
+  defaultValue,
   render,
+  register,
+  autoComplete,
 }: SkillInputProps) {
   return (
     <SkillBox $margin="0 0 16px 0">
-      <SkillLabel htmlFor={Hfor}>{label}</SkillLabel>
+      <SkillLabel>{label}</SkillLabel>
       <SkillInput
         type={type}
-        id={Hfor}
-        name={Hfor}
         placeholder={placeholder}
-        value={value}
-        onChange={onChange}
+        defaultValue={defaultValue}
+        autoComplete={autoComplete}
+        {...register}
       />
       {render}
     </SkillBox>

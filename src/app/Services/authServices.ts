@@ -1,26 +1,39 @@
-import toast from "react-hot-toast";
-import APIClient from "./apiClient";
+import APIClient, { AuthResponse } from "./apiClient";
 
-const apiClient = new APIClient();
+class AuthClient extends APIClient {
+  constructor() {
+    super();
+  }
 
-// Example usage: login
-async function login(email: string, password: string) {
-  try {
-    const user = await apiClient.login(email, password);
-    if (user) {
-      // Login successful, do something with the user data
-      toast.success("Login SuccessFully");
-      return user;
-    } else {
-      // Login failed, handle error or show error message
-      throw new Error("Login failed");
+  async login(email: string, password: string): Promise<AuthResponse | Error> {
+    try {
+      const response = await this.axiosInstance.post<AuthResponse>(
+        "/auth/login",
+        {
+          email,
+          password,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return error as Error;
     }
-  } catch (error) {
-    // Handle error from login API call
-    toast.error(error.message);
-    console.error("Error logging in:", error);
-    return error;
+  }
+
+  async refreshToken(refreshToken: string): Promise<AuthResponse | null> {
+    try {
+      const response = await this.axiosInstance.post<AuthResponse>(
+        "/auth/refresh-tokens",
+        {
+          refreshToken,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      return null;
+    }
   }
 }
+const authClient = new AuthClient();
 
-export { login };
+export default authClient;

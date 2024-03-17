@@ -14,6 +14,6 @@ export const SkillContainer = styled.section<SkillContainerProps>`
           width: 100%;
         `
       : css`
-          width: min(1200px, 95%);
+          width: min(1314px, 95%);
         `}
 `;

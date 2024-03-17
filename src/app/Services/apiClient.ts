@@ -1,13 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { apiRoutes } from "../Utils/baseRoute";
 import { getDataFromLocal, setDataToLocal } from "../Utils/localfunc";
+import AuthClient from "./authServices";
+import authClient from "./authServices";
 
-interface User {
+export interface User {
   role: string;
   isEmailVerified: boolean;
   isKyc: boolean;
   profilePhoto: string;
-  // Add other user properties as needed
 }
 
 export interface AuthResponse {
@@ -20,7 +21,7 @@ export interface AuthResponse {
 }
 
 class APIClient {
-  private axiosInstance: AxiosInstance;
+  protected axiosInstance: AxiosInstance;
   private static baseURL = apiRoutes.base;
 
   constructor() {
@@ -32,7 +33,6 @@ class APIClient {
   }
 
   private setupInterceptors() {
-    // Add request interceptor to attach access token to headers
     this.axiosInstance.interceptors.request.use(
       (config: AxiosRequestConfig) => {
         const accessToken = getDataFromLocal("accessToken");
@@ -47,9 +47,8 @@ class APIClient {
       }
     );
 
-    // Add response interceptor to handle token expiration, refresh token, etc.
     this.axiosInstance.interceptors.response.use(
-      (response: AxiosResponse<AuthResponse>) => {
+      async (response: AxiosResponse<AuthResponse>) => {
         const { accessToken, refreshToken } = response.data;
         if (accessToken) {
           setDataToLocal("accessToken", accessToken);
@@ -61,61 +60,26 @@ class APIClient {
       },
       async (error) => {
         if (error.response && error.response.status === 401) {
-          // Access token is invalid or has expired, attempt to refresh token
           try {
-            const refreshToken = localStorage.getItem("refreshToken");
+            const refreshToken = getDataFromLocal("refreshToken");
             if (!refreshToken) {
-              // No refresh token available, log out user or redirect to login page
               return Promise.reject(error);
             }
-            const response = await this.axiosInstance.post<AuthResponse>(
-              "/auth/refresh-tokens",
-              {
-                refreshToken,
-              }
-            );
-            const { accessToken } = response.data;
+            const response = await authClient.refreshToken(refreshToken);
+            const { accessToken } = response;
             if (accessToken) {
-              // Refresh token successful, update the access token in local storage
               setDataToLocal("accessToken", accessToken);
-              // Reattempt the original request with the new access token
               return this.axiosInstance(error.config);
             } else {
-              // Refresh token failed, log out user or redirect to login page
               return Promise.reject(error);
             }
           } catch (refreshError) {
-            // Error occurred while refreshing token, log out user or redirect to login page
             return Promise.reject(error);
           }
         }
         return Promise.reject(error);
       }
     );
-  }
-
-  async login(email: string, password: string): Promise<AuthResponse | null> {
-    try {
-      const response = await this.axiosInstance.post<AuthResponse>(
-        "/auth/login",
-        {
-          email,
-          password,
-        }
-      );
-      return response.data;
-    } catch (error) {
-      return null;
-    }
-  }
-
-  async getUserProfile(id: string) {
-    try {
-      const response = await this.axiosInstance.get(`/users/fetch/${id}`);
-      return response.data;
-    } catch (error) {
-      return null;
-    }
   }
 }
 

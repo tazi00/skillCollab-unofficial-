@@ -15,7 +15,7 @@ const getSize: StyleFunction = ({ $size }) => {
   switch ($size) {
     case "small":
       return css`
-        padding: 13px;
+        padding: 8px 13px;
         font-size: 14px;
       `;
     case "medium":
@@ -50,9 +50,14 @@ const getVariant: StyleFunction = ({ $variant }) => {
       `;
     case "secondary":
       return css`
-        background-color: #6c757d;
+        background-color: rgba(255, 255, 255, 0.139);
+        border: 3px solid #fff;
         color: #fff;
-        border: none;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
       `;
     case "tertiary":
       return css`

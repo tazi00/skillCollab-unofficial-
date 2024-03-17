@@ -9,13 +9,18 @@ interface SkillTextProps {
     | "error"
     | "success"
     | "bold"
-    | "thin";
+    | "thin"
+    | "tags"
+    | "bgText";
   $margin?: string;
   $padding?: string;
+  $fontBold?: string;
   $width?: string;
   $maxWidth?: string;
+  $lineHeight?: string;
   $minHeight?: string;
   $maxHeight?: string;
+  $gap?: string;
   $flex?: boolean; // New prop to enable flexbox behavior
   $flexDirection?: string;
   $justifyContent?: string;
@@ -50,10 +55,14 @@ export const SkillText = styled.p<SkillTextProps>`
   ${(props) =>
     props.$variant === "tertiary" &&
     css`
-      font-size: 16px;
-      font-weight: 400;
+      font-size: 18px;
+      font-weight: 600;
       line-height: 19px;
-      color: #777; /* Example style for tertiary variant */
+      letter-spacing: 0em;
+      text-align: left;
+      margin-bottom: 30px;
+      color: #000;
+      /* Example style for tertiary variant */
     `}
   ${(props) =>
     props.$variant === "error" &&
@@ -93,15 +102,37 @@ export const SkillText = styled.p<SkillTextProps>`
       letter-spacing: 0em;
       text-align: center;
     `}
+  ${(props) =>
+    props.$variant === "tags" &&
+    css`
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #979c9e;
+    `}
+  ${(props) =>
+    props.$variant === "bgText" &&
+    css`
+      font-size: 26px;
+      font-weight: 700;
+      line-height: 17px;
+      letter-spacing: 0em;
+      text-align: left;
+      color: #ffffff;
+    `}
 
   /* Apply margin if provided */
   ${(props) => props.$margin && `margin: ${props.$margin};`}
+  ${(props) => props.$lineHeight && `line-height: ${props.$lineHeight};`}
 
   /* Apply padding if provided */
   ${(props) => props.$padding && `padding: ${props.$padding};`}
 
   /* Apply width if provided */
   ${(props) => props.$width && `width: ${props.$width};`}
+  ${(props) => props.$fontBold && `font-weight: ${props.$fontBold};`}
 
   /* Apply max-width if provided */
   ${(props) => props.$maxWidth && `max-width: ${props.$maxWidth};`}
@@ -120,5 +151,10 @@ export const SkillText = styled.p<SkillTextProps>`
       flex-direction: ${props.$flexDirection || "row"};
       justify-content: ${props.$justifyContent || "flex-start"};
       align-items: ${props.$alignItems || "stretch"};
+    `}
+  ${(props) =>
+    props.$gap &&
+    css`
+      gap: ${props.$gap || "0"};
     `}
 `;

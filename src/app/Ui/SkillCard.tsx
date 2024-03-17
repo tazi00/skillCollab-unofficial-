@@ -15,11 +15,24 @@ interface SkillCardProps extends BackgroundProps {
   $width?: string;
   $minHeight?: string;
   $maxHeight?: string;
+  $beforeContent?: string;
+  $afterContent?: string;
+  $shadow?: boolean;
+  $before?: boolean; // Prop to enable/disable ::before
+  $after?: boolean; // Prop to enable/disable ::after
 }
 
 export const SkillCard = styled.div<SkillCardProps>`
   border-radius: 15px;
-
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  ${(props) =>
+    props.$shadow &&
+    css`
+      background: #ffffff;
+      box-shadow: 0px 1px 15px 0px #33333314;
+    `}
   ${(props) =>
     props.$backgroundImage &&
     css`
@@ -84,5 +97,33 @@ export const SkillCard = styled.div<SkillCardProps>`
     props.$maxHeight &&
     css`
       max-height: ${props.$maxHeight};
+    `}
+
+  /* Conditionally apply styles for ::before and ::after pseudo-elements */
+  ${(props) =>
+    props.$before &&
+    props.$beforeContent &&
+    css`
+      &::before {
+        content: "${props.$beforeContent}";
+        /* Add additional styles for ::before here */
+      }
+    `}
+
+  ${(props) =>
+    props.$after &&
+    props.$afterContent &&
+    css`
+      &::after {
+        content: "${props.$afterContent}";
+        height: 100%;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        left: 0;
+        background-color: #00000063;
+        /* Add additional styles for ::after here */
+      }
     `}
 `;

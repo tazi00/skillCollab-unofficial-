@@ -11,80 +11,70 @@ import {
   SkillText,
 } from "@/app/Ui";
 
-import { ChangeEvent, FormEvent, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import useLogin from "../hooks/useLogin";
-import { isValidEmail } from "@/app/Utils/validations";
-import toast from "react-hot-toast";
-// import { useNavigate } from "react-router-dom";
 
+export type LoginInputs = {
+  email: string;
+  password: string;
+};
 function LoginForm() {
-  const [formdata, setFormData] = useState({
-    email: "",
-    password: "",
-    deviceToken:
-      "f_wPBQu9NUW-ndhgXOXAmt:APA91bHBlRk3M_PRbN4ucaHXX4NCPT72wvst-M9gjqgtjXWQjAMe7Ukw5CPtDJhrU0AiM-_KzAIi66bK7QPHBgPVm0ZEVPTATHvENwhQ5fL2neHT4vZQtyxWe8SwMp4rAL1wdk7sBovV",
-  });
-  const [emailError, setEmailError] = useState<string | null>(null);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
-  const { mutate: login, isPending } = useLogin();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginInputs>();
 
-  function handleChange(e: ChangeEvent<HTMLInputElement>) {
-    setFormData((prev) => {
-      return { ...prev, [e.target.name]: e.target.value };
-    });
-  }
+  const { login } = useLogin();
 
-  function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    if (!formdata.email) {
-      setEmailError("Please enter your email.");
-      return;
-    }
-    if (!isValidEmail(formdata.email)) {
-      setEmailError("Please enter a valid email address.");
-      return;
-    }
-    setEmailError(null); // Clear email error message
-    if (!formdata.password) {
-      setPasswordError("Please enter your password.");
-      return;
-    }
-    if (formdata.password.length < 4) {
-      setPasswordError("Password must be at least 4 characters long.");
-      return;
-    }
-    setPasswordError(null);
-
-    login({
-      email: formdata.email,
-      password: formdata.password,
-    });
-  }
+  const onSubmit: SubmitHandler<LoginInputs> = (data) => {
+    console.log(data);
+    login({ email: data.email, password: data.password });
+  };
 
   return (
-    <SkillForm onSubmit={(e) => handleSubmit(e)}>
+    <SkillForm onSubmit={handleSubmit(onSubmit)}>
       <SkillInputBox
         placeholder="Enter Your Email Address"
         type="email"
         label="Email"
-        Hfor="email"
-        value={formdata.email}
-        onChange={(e) => handleChange(e)}
+        register={register("email", {
+          required: "Email must be required.",
+          pattern: {
+            value: /^\S+@\S+$/i,
+            message: "Invalid email format",
+          },
+        })}
+        autoComplete="username"
+        defaultValue="td0540245@gmail.com"
       />
-      {emailError && <SkillText $variant="error">{emailError}</SkillText>}
+
+      {errors.email && (
+        <SkillText $variant="error">{errors.email.message}</SkillText>
+      )}
       <SkillInputBox
         placeholder="Enter Your Password"
         type="password"
         label="Password"
-        Hfor="password"
-        value={formdata.password}
-        onChange={(e) => handleChange(e)}
+        autoComplete="current-password"
+        register={register("password", {
+          required: "Password is required.",
+          minLength: {
+            value: 8,
+            message: "Password must be 8 characters or more",
+          },
+        })}
+        defaultValue="Test@1234"
         render={<SkillLink $margin="10px 0 0 0">Forgot password?</SkillLink>}
       />
-      {passwordError && <SkillText $variant="error">{passwordError}</SkillText>}
+      {errors.password && (
+        <SkillText $variant="error" $margin="-28px 0 0 0">
+          {errors.password.message}
+        </SkillText>
+      )}
       <SkillBox $margin="30px 0 0 0 ">
-        <SkillButton disabled={isPending} variant="primary" size="large">
-          {isPending ? "Logging" : "Log in"}
+        <SkillButton variant="primary" size="large" type="submit">
+          Log in
         </SkillButton>
         <SkillText
           $variant="primary"

@@ -1,3 +1,5 @@
 import styled from "styled-components";
 
-export const SkillHeader = styled.header``;
+export const SkillHeader = styled.header`
+  background: #ebfdff;
+`;

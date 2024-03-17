@@ -7,42 +7,45 @@ import {
 } from "@/app/Ui";
 import "./style.scss";
 import { SkillProfileCard } from "@/app/Components";
-import { Outlet } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
-import { getUserById } from "@/app/Services/userServices";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import useUser from "@/app/hooks/useUser";
+import HomeTabs from "./Components/HomeTabs";
+import { useEffect } from "react";
+import HomeFeeds from "./Components/HomeFeeds";
+import HomeFeedFilters from "./Components/HomeFeedFilters";
 
 function Home() {
-  const { data: user } = useUser();
+  const { user } = useUser();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const isHomeFeeds = searchParams.get("feed") === "all";
+  const isPeopleFeeds = searchParams.get("feed") === "people";
+  const isGroupFeeds = searchParams.get("feed") === "group";
 
-  const {
-    data: userData,
-    isLoading,
-    isError,
-    error,
-  } = useQuery({
-    queryKey: ["userProfile", user?.sub],
-    queryFn: () => getUserById(user?.sub),
-    enabled: !!user?.sub,
-  });
-  if (isLoading) return <div>Loading...</div>;
-  if (isError) return <div>Error: {error.message}</div>;
-
-  console.log(userData);
+  useEffect(() => {
+    if (window.location.pathname === "/home") {
+      navigate("?feed=all");
+    }
+  }, [navigate]);
 
   return (
-    <SkillSection>
+    <SkillSection $padding="20px 0 0 0 ">
       <SkillContainer>
-        <SkillGrid $col={["300px", "1fr", "300px"]}>
+        <SkillGrid $col={["300px", "1fr", "300px"]} $gap="30px">
           <SkillCol>
             <SkillBox>
-              <SkillProfileCard profileCardData={userData} />
+              <SkillProfileCard profileCardData={user} />
             </SkillBox>
           </SkillCol>
           <SkillCol>
-            <Outlet />
+            {isHomeFeeds && <HomeFeeds feed="all" />}
+            {isPeopleFeeds && <HomeFeeds feed="people" />}
+            {isGroupFeeds && <HomeFeeds feed="group" />}
           </SkillCol>
-          <SkillCol>col3</SkillCol>
+          <SkillCol>
+            <HomeTabs />
+            <HomeFeedFilters />
+          </SkillCol>
         </SkillGrid>
       </SkillContainer>
     </SkillSection>

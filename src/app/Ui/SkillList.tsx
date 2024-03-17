@@ -9,8 +9,11 @@ interface StyledUlProps {
   $flexDirection?: string; // Add flexDirection property
   $gridTemplateColumns?: string;
   $gap?: string;
+  $border?: string;
   $margin?: string; // Dynamic margin
-  $padding?: string; // Dynamic padding
+  $padding?: string;
+  $mode?: "one" | "two" | "three" | "four" | "five";
+  // Dynamic padding
   // Add other flex/grid related properties as needed
 }
 
@@ -41,5 +44,47 @@ export const SkillList = styled.ul<StyledUlProps>`
       grid-template-columns: ${props.$gridTemplateColumns || "auto"};
       gap: ${props.$gap || "0"};
       /* Add other grid properties as needed */
+    `}
+  ${(props) =>
+    props.$border &&
+    css`
+      border: ${props.$border};
+      /* Add other grid properties as needed */
+    `}
+
+  /* Apply mode-specific styles */
+  ${(props) =>
+    props.$mode &&
+    props.$mode === "one" &&
+    css`
+      border-bottom: 1px solid #e9e9e9;
+    `}
+
+  ${(props) =>
+    props.$mode &&
+    props.$mode === "two" &&
+    css`
+      /* Styles for mode two */
+    `}
+
+  ${(props) =>
+    props.$mode &&
+    props.$mode === "three" &&
+    css`
+      /* Styles for mode three */
+    `}
+
+  ${(props) =>
+    props.$mode &&
+    props.$mode === "four" &&
+    css`
+      /* Styles for mode four */
+    `}
+
+  ${(props) =>
+    props.$mode &&
+    props.$mode === "five" &&
+    css`
+      /* Styles for mode five */
     `}
 `;

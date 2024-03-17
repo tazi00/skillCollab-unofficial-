@@ -4,7 +4,9 @@ interface SkillGridProps {
   $col: number | string[];
   $height?: string;
   $width?: string;
-  $gap?: number;
+  $gap?: string;
+  $alignItems?: string;
+  $justifyContent?: string;
 }
 
 export const SkillGrid = styled.div<SkillGridProps>`
@@ -27,5 +29,19 @@ export const SkillGrid = styled.div<SkillGridProps>`
     props.$width &&
     css`
       width: ${props.$width};
+    `}
+
+  /* Apply align-items if provided */
+  ${(props) =>
+    props.$alignItems &&
+    css`
+      align-items: ${props.$alignItems};
+    `}
+
+  /* Apply justify-content if provided */
+  ${(props) =>
+    props.$justifyContent &&
+    css`
+      justify-content: ${props.$justifyContent};
     `}
 `;

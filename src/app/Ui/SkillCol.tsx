@@ -11,6 +11,8 @@ interface SkillColProps {
   $gap?: string;
   $gridTemplateColumns?: string;
   $gridGap?: string;
+  $grid?: boolean;
+  $flex?: boolean;
   // Add other flex/grid related properties as needed
 }
 
@@ -59,5 +61,15 @@ export const SkillCol = styled.div<SkillColProps>`
     props.$gap &&
     css`
       gap: ${props.$gap};
+    `}
+  ${(props) =>
+    props.$grid &&
+    css`
+      grid: ${props.$grid && "grid"};
+    `}
+  ${(props) =>
+    props.$flex &&
+    css`
+      display: ${props.$flex && "flex"};
     `}
 `;

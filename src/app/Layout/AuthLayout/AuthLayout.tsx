@@ -17,10 +17,9 @@ import { useEffect } from "react";
 
 function AuthLayout() {
   const { pathname } = useLocation();
+  const { user, isLoading } = useUser();
+
   const navigate = useNavigate();
-
-  const { isAuthenticated, isLoading } = useUser();
-
   const authLayoutBg =
     pathname === "/" || pathname === "/register" ? logoBg : authBg;
 
@@ -32,13 +31,13 @@ function AuthLayout() {
   };
   const authHead =
     authLayoutNames[pathname.split("/")[1] as keyof typeof authLayoutNames];
-  useEffect(
-    function () {
-      if (isAuthenticated && !isLoading) navigate("/home");
-    },
-    [isAuthenticated, isLoading, navigate]
-  );
-  if (!isAuthenticated)
+  useEffect(() => {
+    if (user?.firstName && !isLoading) navigate("/home");
+  }, [user, navigate, isLoading]);
+
+  if (isLoading) return <>Loading...</>;
+
+  if (!user?.firstName)
     return (
       <SkillSection>
         <SkillContainer $fluid>
