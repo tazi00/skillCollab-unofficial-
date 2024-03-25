@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 interface SkillFormProps {
-  $mode?: "one" | "two" | "three"; // Define modes
+  $mode?: "one" | "two" | "three" | "four"; // Define modes
 }
 
 export const SkillForm = styled.form<SkillFormProps>`
@@ -32,5 +32,13 @@ export const SkillForm = styled.form<SkillFormProps>`
       background-color: #dcdcdc; /* Mode three background color */
       border: 3px solid #333; /* Mode three border */
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); /* Mode three box shadow */
+    `}
+  ${(props) =>
+    props.$mode === "four" &&
+    css`
+      width: 100%;
+      max-width: 100%;
+      padding: 0 20px 10px;
+      /* Mode three box shadow */
     `}
 `;

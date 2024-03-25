@@ -4,7 +4,7 @@ import styled, { css, CSSObject } from "styled-components";
 interface ButtonProps {
   $margin?: string;
   $size?: "small" | "medium" | "large";
-  $variant?: "primary" | "secondary" | "tertiary";
+  $variant?: "primary" | "secondary" | "tertiary" | "edit";
 }
 
 // Define a type for the style functions
@@ -61,9 +61,30 @@ const getVariant: StyleFunction = ({ $variant }) => {
       `;
     case "tertiary":
       return css`
-        background-color: transparent;
-        color: #007bff;
-        border: 1px solid #007bff;
+        background: #c4c4c4;
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 19.36px;
+        text-align: center;
+        color: #ffffff;
+        box-shadow: 0px 8px 18px 0px #00000040;
+        box-shadow: 0px 0px 1px 0px #1414140a;
+      `;
+    case "edit":
+      return css`
+        background: #c4c4c428;
+        font-size: 14px;
+        border: 1px solid #aaa;
+        font-weight: 500;
+        line-height: 19.36px;
+        text-align: center;
+        color: #aaaaaa;
+        box-shadow: 0px 8px 18px 0px #00000040;
+        box-shadow: 0px 0px 1px 0px #1414140a;
+        padding: 10px 30px;
+        position: absolute;
+        right: 20px;
+        bottom: 0;
       `;
     default:
       return css`

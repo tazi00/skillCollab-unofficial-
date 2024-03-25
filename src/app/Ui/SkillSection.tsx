@@ -7,7 +7,7 @@ interface SkillSectionProps {
 
 export const SkillSection = styled.section<SkillSectionProps>`
   background-color: #fff;
-
+  height: 100%;
   /* Conditionally apply $margin if provided */
   ${(props) =>
     props.$margin &&

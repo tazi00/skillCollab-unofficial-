@@ -25,6 +25,8 @@ interface SkillTextProps {
   $flexDirection?: string;
   $justifyContent?: string;
   $alignItems?: string;
+  $color?: string;
+  $textAlign?: string;
   // Add other flex-related properties as needed
 }
 
@@ -156,5 +158,15 @@ export const SkillText = styled.p<SkillTextProps>`
     props.$gap &&
     css`
       gap: ${props.$gap || "0"};
+    `}
+  ${(props) =>
+    props.$textAlign &&
+    css`
+      text-align: ${props.$textAlign || "left"};
+    `}
+  ${(props) =>
+    props.$color &&
+    css`
+      color: ${props.$color || "#000"};
     `}
 `;

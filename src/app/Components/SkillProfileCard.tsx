@@ -1,6 +1,7 @@
 import SkillButton from "./SkillButton";
 import { SkillBox, SkillCard, SkillImg, SkillText } from "../Ui";
 import { BiEditAlt } from "react-icons/bi";
+import useEditProfile from "../Pages/AppPages/Profile/Components/EditProfile/useEditProfile";
 
 interface SkillProfileCardProps {
   coverPhoto: string;
@@ -15,6 +16,8 @@ function SkillProfileCard({
 }: {
   profileCardData: SkillProfileCardProps;
 }) {
+  const openEditModal = useEditProfile((state) => state.openEdit);
+
   return (
     <SkillCard
       $backgroundImage={profileCardData?.coverPhoto}
@@ -44,7 +47,12 @@ function SkillProfileCard({
         <SkillText $margin="0 0 10px 0" $variant="thin">
           {profileCardData?.description}
         </SkillText>
-        <SkillButton margin="10px 0 0 0 " variant="secondary" size="small">
+        <SkillButton
+          margin="10px 0 0 0 "
+          variant="secondary"
+          size="small"
+          onClick={() => openEditModal()}
+        >
           <BiEditAlt fontSize={"22px"} />
           Edit Profile
         </SkillButton>

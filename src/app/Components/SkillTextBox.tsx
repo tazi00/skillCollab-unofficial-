@@ -1,6 +1,6 @@
 // FormRow.js
 import { ReactNode } from "react";
-import { SkillBox, SkillInput, SkillLabel } from "../Ui";
+import { SkillBox, SkillLabel, SkillTextarea } from "../Ui";
 
 interface SkillInputProps {
   label?: string;
@@ -12,7 +12,7 @@ interface SkillInputProps {
   autoComplete?: string;
 }
 
-function SkillInputBox({
+function SkillTextBox({
   placeholder,
   label,
   type,
@@ -24,7 +24,7 @@ function SkillInputBox({
   return (
     <SkillBox $margin="0 0 16px 0">
       <SkillLabel>{label}</SkillLabel>
-      <SkillInput
+      <SkillTextarea
         type={type}
         placeholder={placeholder}
         defaultValue={defaultValue}
@@ -36,4 +36,4 @@ function SkillInputBox({
   );
 }
 
-export default SkillInputBox;
+export default SkillTextBox;

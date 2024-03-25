@@ -11,6 +11,7 @@ interface BackgroundProps {
 interface SkillCardProps extends BackgroundProps {
   $margin?: string;
   $padding?: string;
+  $maxWidh?: string;
   $height?: string;
   $width?: string;
   $minHeight?: string;
@@ -18,6 +19,7 @@ interface SkillCardProps extends BackgroundProps {
   $beforeContent?: string;
   $afterContent?: string;
   $shadow?: boolean;
+  $variant?: "modal-sm" | "modal-lg";
   $before?: boolean; // Prop to enable/disable ::before
   $after?: boolean; // Prop to enable/disable ::after
 }
@@ -49,6 +51,11 @@ export const SkillCard = styled.div<SkillCardProps>`
     props.$backgroundSize &&
     css`
       background-size: ${props.$backgroundSize};
+    `}
+  ${(props) =>
+    props.$maxWidh &&
+    css`
+      max-width: ${props.$maxWidh};
     `}
 
   ${(props) =>
@@ -124,6 +131,32 @@ export const SkillCard = styled.div<SkillCardProps>`
         left: 0;
         background-color: #00000063;
         /* Add additional styles for ::after here */
+      }
+    `}
+    ${(props) =>
+    props.$variant === "modal-sm" &&
+    css`
+      /* Styles for modal-sm variant */
+      max-width: 400px; /* Example width */
+      /* Add other specific styles for modal-sm */
+    `}
+
+  ${(props) =>
+    props.$variant === "modal-lg" &&
+    css`
+      position: fixed;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      background: #0000000f;
+      border-radius: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      & > div {
+        max-width: 900px;
+        width: 100%;
+        background: #fff;
       }
     `}
 `;

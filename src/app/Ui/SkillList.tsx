@@ -5,6 +5,8 @@ interface StyledUlProps {
   $grid?: boolean; // Enable grid layout
   $justifyContent?: string;
   $alignItems?: string;
+  $width?: string;
+  $height?: string;
   $flexWrap?: string;
   $flexDirection?: string; // Add flexDirection property
   $gridTemplateColumns?: string;
@@ -49,6 +51,18 @@ export const SkillList = styled.ul<StyledUlProps>`
     props.$border &&
     css`
       border: ${props.$border};
+      /* Add other grid properties as needed */
+    `}
+  ${(props) =>
+    props.$width &&
+    css`
+      width: ${props.$width};
+      /* Add other grid properties as needed */
+    `}
+  ${(props) =>
+    props.$height &&
+    css`
+      height: ${props.$height};
       /* Add other grid properties as needed */
     `}
 

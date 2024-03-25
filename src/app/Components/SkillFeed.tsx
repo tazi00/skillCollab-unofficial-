@@ -14,6 +14,7 @@ import groupFollowersIcons from "../assets/Groupfollowers.png";
 import sortInc from "../assets/sortInc.png";
 import sortDesc from "../assets/sortDesc.png";
 import useUser from "../hooks/useUser";
+import ReactPlayer from "react-player";
 
 function SkillFeed({ feedData }) {
   const { user } = useUser();
@@ -164,6 +165,7 @@ function SkillFeed({ feedData }) {
       $backgroundColor={feedData?.bgColor}
       $flex={true}
       $alignItems={"center"}
+      $borderRadius="15px"
       $justifyContent={"center"}
     >
       <SkillText
@@ -176,11 +178,22 @@ function SkillFeed({ feedData }) {
       </SkillText>
     </SkillBox>
   );
+  const isFeedVideo = feedData?.videoUrl && (
+    <SkillBox $height="240px" $width="100%" $borderRadius="15px">
+      <ReactPlayer width="100%" height="100%" url={feedData?.videoUrl} />
+    </SkillBox>
+  );
 
   const feedHeader = feedData?.groupId ? groupFeedHeader : usersFeedHeader;
 
   return (
-    <SkillCard $shadow={true} $padding="20px" $margin="0 0 20px 0">
+    <SkillCard
+      $shadow={true}
+      $padding="20px"
+      $margin="0 auto 20px auto"
+      $width="100%"
+      $maxWidh="650px"
+    >
       {feedHeader}
       <SkillBox>
         {!isFeedBG && (
@@ -199,7 +212,7 @@ function SkillFeed({ feedData }) {
           #Gardening#garden#veggies#expertgardening....
         </SkillText>
       </SkillBox>
-      {isFeedImage || isFeedGif || isFeedBG}
+      {isFeedImage || isFeedGif || isFeedBG || isFeedVideo}
       <SkillBox
         $flex={true}
         $alignItems="center"

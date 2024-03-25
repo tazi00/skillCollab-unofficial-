@@ -9,7 +9,15 @@ interface SkillBoxProps {
   $maxWidth?: string;
   $minWidth?: string;
   $margin?: string;
+  $borderRadius?: string;
   $padding?: string;
+  $position?: {
+    $pos: "absolute" | "relative" | "fixed";
+    $right: number;
+    $left: number;
+    $top: number;
+    $bottom: number;
+  };
   $backgroundColor?: string;
   $overflow?: string;
   // Add flex properties
@@ -45,6 +53,11 @@ export const SkillBox = styled.div<SkillBoxProps>`
     props.$textAlign &&
     css`
       text-align: ${props.$textAlign};
+    `}
+  ${(props) =>
+    props.$borderRadius &&
+    css`
+      border-radius: ${props.$borderRadius};
     `}
 
   /* Apply margin if provided */
@@ -172,5 +185,14 @@ export const SkillBox = styled.div<SkillBoxProps>`
     props.$gap &&
     css`
       gap: ${props.$gap};
+    `}
+  ${(props) =>
+    props.$position &&
+    css`
+      position: ${props.$position.$pos};
+      right: ${props.$position.$right};
+      left: ${props.$position.$left};
+      top: ${props.$position.$top};
+      bottom: ${props.$position.$bottom};
     `}
 `;

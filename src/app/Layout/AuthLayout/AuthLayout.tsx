@@ -54,8 +54,12 @@ function AuthLayout() {
                   {authHead}
                 </SkillHead>
                 <SkillText
-                  $variant="tertiary"
-                  $maxWidth="490px"
+                  $variant="primary"
+                  $maxWidth="400px"
+                  $color="#777"
+                  $fontBold="400"
+                  $lineHeight="22px"
+                  $textAlign="center"
                   $margin="0 auto"
                   $width="100%"
                 >

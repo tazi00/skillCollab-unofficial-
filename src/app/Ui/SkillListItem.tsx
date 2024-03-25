@@ -7,6 +7,7 @@ interface StyledLiProps {
   $alignItems?: string;
   $flexBasis?: string;
   $gridColumn?: string;
+  $color?: string;
   $flexDirection?: string; // Add flexDirection property
   $gap?: string; // Add gap property for grid layout
   // Add other flex/grid related properties as needed
@@ -57,7 +58,13 @@ export const SkillListItem = styled.li<StyledLiProps>`
           align-content: center;
         `;
       default:
-        return null;
+        return css`
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 19.36px;
+          color: #000;
+          text-align: right;
+        `;
     }
   }}
 
@@ -80,6 +87,12 @@ export const SkillListItem = styled.li<StyledLiProps>`
       display: grid;
       grid-column: ${props.$gridColumn || "auto"};
       gap: ${props.$gap || "0"}; /* Set gap for grid layout */
+      /* Add other grid properties as needed */
+    `}
+  ${(props) =>
+    props.$color &&
+    css`
+      color: ${props.$color || "black"};
       /* Add other grid properties as needed */
     `}
 `;

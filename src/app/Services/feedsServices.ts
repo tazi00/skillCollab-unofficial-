@@ -23,18 +23,20 @@ class FeedsClient extends APIClient {
   async getAllFeeds(
     url: string,
     payload: FeedType,
-    queryParams: string
-  ): Promise<User | null | Error> {
+    pageItem: number,
+    page: number
+  ): Promise<User | null> {
     try {
       const feedParam = new URLSearchParams(window.location.search).get("feed");
-      const endpoint = feedParam === "group" ? "/group" : "/users";
+      const endpoint =
+        feedParam === "group" || feedParam === "allGroup" ? "/group" : "/users";
       const response = await this.axiosInstance.post<User>(
-        `${endpoint}/${url}?${queryParams}`,
+        `${endpoint}/${url}?page=${page}&pageSize=${pageItem}`,
         payload
       );
       return response.data?.data;
     } catch (error) {
-      return error as Error;
+      return error;
     }
   }
 }

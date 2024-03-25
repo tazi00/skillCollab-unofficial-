@@ -7,8 +7,8 @@ interface ImgProps {
   $padding?: string;
   $object?: "cover" | "contain";
   $borderRadius?: string; // Added borderRadius property
-  $border?: string; // Added border property
-  // Add more properties as needed
+  $border?: string;
+  $variant?: "badge" | "simple";
 }
 
 export const SkillImg = styled.img<ImgProps>`
@@ -59,4 +59,23 @@ export const SkillImg = styled.img<ImgProps>`
     css`
       object-fit: ${props.$object};
     `} /* Add more styling properties as needed */
+
+     ${(props) =>
+    props.$variant === "badge" &&
+    css`
+      cursor: pointer;
+      height: 120px;
+      width: 120px;
+      border-radius: 50%;
+      position: relative;
+      margin-top: -80px;
+      border: 1px solid #000;
+      margin-left: 20px;
+    `}
+
+  ${(props) =>
+    props.$variant === "simple" &&
+    css`
+      object-fit: cover;
+    `}
 `;

@@ -1,39 +1,78 @@
-import { SkillFeed } from "@/app/Components";
+import {
+  SkillFeed,
+  SkillFeedLoader,
+  SkillGroupCard,
+  SkillPeopleCard,
+} from "@/app/Components";
 import useHomeFeed from "../hooks/useHomeFeed";
-import useFeedFilter from "../store/useFeedFilter";
 import { SkillText } from "@/app/Ui";
+import { Fragment } from "react/jsx-runtime";
+import { useSearchParams } from "react-router-dom";
+import useGlobalSearch from "@/app/store/useGlobalSearch";
 
-function HomeFeeds({ feed }: { feed: string }) {
-  const feedKey = useFeedFilter((state) => state.feedFilter);
-  const timeKey = useFeedFilter((state) => state.timeFilter);
-
-  const feedtype = {
-    all: "get-all-people-group",
-    people: "get-all-people",
-    group: "get-public-posts",
-  };
-  const body = {
-    searchKey: "",
-    timeFilter: timeKey,
-    feedFilter: feedKey,
-  };
-
-  console.log(body);
-
-  const query = "page=1&pageSize=10";
-
-  const { feeds, isLoading } = useHomeFeed(feed, feedtype[feed], body, query);
+function HomeFeeds() {
+  const { feeds, isLoading, isError } = useHomeFeed();
+  const [searchParams] = useSearchParams();
+  const searchTerm = useGlobalSearch((state) => state.searchTerm);
   console.log(feeds);
+
   if (isLoading) {
-    return <>Loading...</>;
+    return (
+      <>
+        <SkillFeedLoader />
+        <SkillFeedLoader />
+        <SkillFeedLoader />
+      </>
+    );
+  }
+  if (isError) {
+    return (
+      <SkillText $variant="tertiary" $textAlign="center" $margin="50px 0 0 0 ">
+        There is some error...
+      </SkillText>
+    );
   }
 
-  return feed?.length === 0 ? (
-    <SkillText>There is no Post ... </SkillText>
-  ) : (
-    feeds?.map((feed) => {
-      return <SkillFeed key={feed?._id} feedData={feed} />;
-    })
+  if (feeds?.pages[0].name === "AxiosError")
+    return <SkillText>Sorry, There is some error... </SkillText>;
+  if (!feeds || feeds?.pages?.length === 0) {
+    return (
+      <SkillText $variant="tertiary" $textAlign="center" $margin="50px 0 0 0 ">
+        There is no Post ...{" "}
+      </SkillText>
+    );
+  }
+
+  return (
+    <>
+      {feeds.pages.map((page, pageIndex) => (
+        <Fragment key={pageIndex}>
+          {!page?.length ? (
+            <SkillText
+              $variant="tertiary"
+              $textAlign="center"
+              $margin="50px 0 0 0 "
+            >
+              Sorry , didn't find any {searchTerm} item
+            </SkillText>
+          ) : (
+            page.map((feed) => {
+              // Now determining content based on feed data inside the map
+              let content;
+              if (searchParams.get("feed") === "allPeople") {
+                content = <SkillPeopleCard key={feed?._id} peopleData={feed} />;
+              } else if (searchParams.get("feed") === "allGroup") {
+                content = <SkillGroupCard key={feed?._id} groupData={feed} />;
+              } else {
+                content = <SkillFeed key={feed._id} feedData={feed} />;
+              }
+
+              return <Fragment key={feed._id}>{content}</Fragment>;
+            })
+          )}
+        </Fragment>
+      ))}
+    </>
   );
 }
 

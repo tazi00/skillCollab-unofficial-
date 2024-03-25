@@ -3,7 +3,9 @@ import HomeIcon from "../../assets/homeIcon.svg";
 import ExploreIcon from "../../assets/exploreIcon.svg";
 import ChatIcon from "../../assets/chatIcon.svg";
 import { Link } from "react-router-dom";
+import useGlobalSearch from "@/app/store/useGlobalSearch";
 function HeaderNav() {
+  const setSearchTerm = useGlobalSearch((state) => state.setSearchTerm);
   const navIcons = [
     {
       id: 1,
@@ -25,6 +27,10 @@ function HeaderNav() {
     },
   ];
 
+  function resetSearch() {
+    setSearchTerm("");
+  }
+
   return (
     <SkillBox $flex={true} $gap="60px">
       <SkillList
@@ -35,7 +41,7 @@ function HeaderNav() {
       >
         {navIcons.map((item) => {
           return (
-            <SkillListItem key={item.id}>
+            <SkillListItem key={item.id} onClick={() => resetSearch()}>
               <Link to={item.link}>
                 <SkillImg src={item.icon} alt={item.alt} />
               </Link>

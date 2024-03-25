@@ -5,6 +5,10 @@ interface SkillSpanProps {
   $variant?: "primary" | "secondary" | "tertiary";
   $margin?: string;
   $padding?: string;
+  $color?: string;
+  $cursor?: string;
+
+  $fontSize?: string;
   $fontBold?: string;
   $flex?: {
     $direction?: string;
@@ -77,6 +81,21 @@ const SkillSpan = styled.span<SkillSpanProps>`
     $fontBold &&
     css`
       font-weight: ${$fontBold};
+    `}
+  ${({ $fontSize }) =>
+    $fontSize &&
+    css`
+      font-size: ${$fontSize};
+    `}
+  ${({ $color }) =>
+    $color &&
+    css`
+      color: ${$color};
+    `}
+  ${({ $cursor }) =>
+    $cursor &&
+    css`
+      cursor: ${$cursor};
     `}
 
   /* Apply flex styles based on props */

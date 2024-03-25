@@ -1,5 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { Footer, Header } from "./Components";
+import EditProfile from "@/app/Pages/AppPages/Profile/Components/EditProfile";
 
 function Applayout() {
   return (
@@ -9,6 +10,7 @@ function Applayout() {
         <Outlet />
       </main>
       <Footer />
+      <EditProfile />
     </div>
   );
 }

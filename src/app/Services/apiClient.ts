@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 import { apiRoutes } from "../Utils/baseRoute";
 import { getDataFromLocal, setDataToLocal } from "../Utils/localfunc";
-import AuthClient from "./authServices";
 import authClient from "./authServices";
 
 export interface User {

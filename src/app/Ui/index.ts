@@ -18,6 +18,8 @@ import { SkillListItem } from "./SkillListItem";
 import { SkillLoading } from "./SkillLoading";
 import { SkillCard } from "./SkillCard";
 import SkillSpan from "./SkillSpan";
+import SkillFooter from "./SkillFooter";
+import { SkillTextarea } from "./SkillTextArea";
 
 export {
   SkillContainer,
@@ -40,4 +42,6 @@ export {
   SkillLoading,
   SkillCard,
   SkillSpan,
+  SkillFooter,
+  SkillTextarea,
 };

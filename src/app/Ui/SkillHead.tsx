@@ -6,6 +6,15 @@ interface SkillHeadProps {
   $size?: string;
   $margin?: string; // Added margin prop
   $padding?: string; // Added padding prop
+  $color?: string;
+  $fontBold?: string;
+  $flex?: {
+    $direction?: string;
+    $justifyContent?: string;
+    $alignItems?: string;
+    $flexWrap?: string;
+    $gap?: string;
+  };
 }
 
 export const SkillHead = styled.p<SkillHeadProps>`
@@ -21,7 +30,10 @@ export const SkillHead = styled.p<SkillHeadProps>`
   ${(props) =>
     props.$variant === "Secondary" &&
     css`
-      color: blue;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 16.94px;
+      text-align: left;
     `}
   ${(props) =>
     props.$variant === "Tertiary" &&
@@ -31,7 +43,18 @@ export const SkillHead = styled.p<SkillHeadProps>`
 
   /* Size style */
   ${(props) => props.$size && `font-size: ${props.$size};`}
-
+  ${(props) => props.$color && `color: ${props.$color};`}
+  ${(props) => props.$fontBold && `font-weight: ${props.$fontBold};`}
+  ${({ $flex }) =>
+    $flex &&
+    css`
+      display: flex;
+      flex-direction: ${$flex.$direction || "row"};
+      justify-content: ${$flex.$justifyContent || "flex-start"};
+      align-items: ${$flex.$alignItems || "stretch"};
+      flex-wrap: ${$flex.$flexWrap || "nowrap"};
+      gap: ${$flex.$gap || "0"};
+    `}
   /* Margin and padding styles */
   ${(props) => props.$margin && `margin: ${props.$margin};`}
   ${(props) => props.$padding && `padding: ${props.$padding};`}
